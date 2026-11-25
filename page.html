@@ -1,0 +1,1126 @@
+<!doctype html><html><head><meta charset="utf-8"><style>* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0b1120;
+  color: #f1f5f9;
+  font-family: Arial, sans-serif;
+  padding: 18px;
+}
+
+.app {
+  max-width: 480px;
+  margin: auto;
+}
+
+header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 24px;
+}
+
+h1 {
+  margin: 0;
+  font-size: 28px;
+  color: #60a5fa;
+}
+
+header p {
+  color: #94a3b8;
+  margin: 5px 0;
+}
+
+.badge {
+  background: #164e3b;
+  color: #4ade80;
+  border-radius: 20px;
+  padding: 8px 12px;
+  font-size: 11px;
+}
+
+.card {
+  background: #172033;
+  padding: 18px;
+  border-radius: 18px;
+  margin-bottom: 15px;
+  border: 1px solid #273449;
+}
+
+.muted {
+  color: #94a3b8;
+  font-size: 12px;
+}
+
+.price {
+  font-size: 36px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+
+.change {
+  color: #4ade80;
+  margin-bottom: 12px;
+}
+
+.trend {
+  margin-top: 12px;
+  padding: 10px;
+  background: #0b1120;
+  border-radius: 10px;
+  font-size: 13px;
+  color: #60a5fa;
+  line-height: 1.6;
+}
+
+.account h2 {
+  font-size: 28px;
+  color: #4ade80;
+}
+
+.account-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.stats .card {
+  margin-bottom: 0;
+}
+
+h3 {
+  margin-top: 8px;
+}
+
+.indicator-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-top: 15px;
+}
+
+.indicator {
+  background: #0b1120;
+  border: 1px solid #273449;
+  padding: 14px;
+  border-radius: 12px;
+}
+
+.indicator span {
+  display: block;
+  font-size: 12px;
+  color: #94a3b8;
+  margin-bottom: 8px;
+}
+
+.indicator strong {
+  font-size: 17px;
+  color: #60a5fa;
+  overflow-wrap: anywhere;
+}
+
+button {
+  width: 100%;
+  border: none;
+  border-radius: 12px;
+  padding: 15px;
+  background: #2563eb;
+  color: white;
+  font-size: 15px;
+  margin-top: 12px;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: #334155;
+}
+
+.trade-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+button.buy {
+  background: #15803d;
+}
+
+button.sell {
+  background: #b91c1c;
+}
+
+button:active {
+  opacity: 0.7;
+}
+
+#position {
+  margin-top: 15px;
+  background: #0b1120;
+  padding: 12px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.6;
+}
+
+canvas {
+  width: 100%;
+  height: 220px;
+  display: block;
+  background: #0b1120;
+  border-radius: 12px;
+}
+
+#history {
+  font-size: 13px;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+
+.history-item {
+  border-bottom: 1px solid #273449;
+  padding: 10px 0;
+}
+
+#log {
+  color: #cbd5e1;
+  font-size: 14px;
+  line-height: 1.7;
+  overflow-wrap: anywhere;
+}
+
+.reset-account {
+  background: #7f1d1d;
+}
+
+footer {
+  text-align: center;
+  color: #64748b;
+  font-size: 11px;
+  padding: 20px 5px;
+}</style></head><body><div class="app">
+
+  <header>
+    <div>
+      <h1>Nova</h1>
+      <p>Market Lab</p>
+    </div>
+    <span class="badge">DEMO</span>
+  </header>
+
+  <section class="card">
+    <p class="muted">SIMULATED MARKET</p>
+    <h2>EUR/USD</h2>
+
+    <div id="price" class="price">1.10000</div>
+    <div id="change" class="change">+0.00000</div>
+
+    <div id="trend" class="trend">
+      Waiting for simulation...
+    </div>
+  </section>
+
+  <section class="card account">
+    <p class="muted">VIRTUAL ACCOUNT BALANCE</p>
+    <h2 id="balance">$10,000.00</h2>
+
+    <div class="account-grid">
+      <div>
+        <p class="muted">Unrealized P/L</p>
+        <h3 id="unrealized">$0.00</h3>
+      </div>
+
+      <div>
+        <p class="muted">Equity</p>
+        <h3 id="equity">$10,000.00</h3>
+      </div>
+    </div>
+  </section>
+
+  <section class="stats">
+
+    <div class="card">
+      <p class="muted">Starting price</p>
+      <h3 id="start">1.10000</h3>
+    </div>
+
+    <div class="card">
+      <p class="muted">Highest</p>
+      <h3 id="high">1.10000</h3>
+    </div>
+
+    <div class="card">
+      <p class="muted">Lowest</p>
+      <h3 id="low">1.10000</h3>
+    </div>
+
+    <div class="card">
+      <p class="muted">Updates</p>
+      <h3 id="updates">0</h3>
+    </div>
+
+  </section>
+
+  <!-- TECHNICAL INDICATORS -->
+
+  <section class="card">
+
+    <h3>Technical indicators</h3>
+
+    <p class="muted">
+      Calculated from fictional price data
+    </p>
+
+    <div class="indicator-grid">
+
+      <div class="indicator">
+        <span>SMA 5</span>
+        <strong id="sma5">--</strong>
+      </div>
+
+      <div class="indicator">
+        <span>SMA 10</span>
+        <strong id="sma10">--</strong>
+      </div>
+
+      <div class="indicator">
+        <span>RSI 14</span>
+        <strong id="rsi">--</strong>
+      </div>
+
+      <div class="indicator">
+        <span>MACD</span>
+        <strong id="macd">--</strong>
+      </div>
+
+    </div>
+
+    <div id="indicatorStatus" class="trend">
+      Waiting for sufficient simulated data...
+    </div>
+
+  </section>
+
+  <section class="card">
+
+    <h3>Price simulator</h3>
+
+    <button onclick="updatePrice()">
+      Generate simulated update
+    </button>
+
+    <button class="secondary" onclick="resetSimulator()">
+      Reset price simulation
+    </button>
+
+  </section>
+
+  <section class="card">
+
+    <h3>Virtual positions</h3>
+
+    <p class="muted">
+      Fictional positions for programming practice only.
+    </p>
+
+    <div class="trade-buttons">
+
+      <button class="buy" onclick="openPosition('LONG')">
+        Simulate Long
+      </button>
+
+      <button class="sell" onclick="openPosition('SHORT')">
+        Simulate Short
+      </button>
+
+    </div>
+
+    <button class="secondary" onclick="closePosition()">
+      Close simulated position
+    </button>
+
+    <div id="position">
+      No open simulated position.
+    </div>
+
+  </section>
+
+  <section class="card">
+
+    <h3>Price history</h3>
+
+    <canvas id="priceChart" width="600" height="300"></canvas>
+
+  </section>
+
+  <section class="card">
+
+    <h3>Simulated trade history</h3>
+
+    <div id="history">
+      No simulated trades yet.
+    </div>
+
+  </section>
+
+  <section class="card">
+
+    <h3>Activity</h3>
+
+    <div id="log">
+      Simulator ready.
+    </div>
+
+  </section>
+
+  <button class="reset-account" onclick="resetAccount()">
+    Reset virtual account
+  </button>
+
+  <footer>
+    Educational simulation only · Fictional data
+  </footer>
+
+</div><script>// ==========================================
+// NOVA MARKET LAB - VERSION 3
+// EDUCATIONAL SIMULATION ONLY
+// ==========================================
+
+let startingPrice = 1.10000;
+let currentPrice = startingPrice;
+
+let highestPrice = startingPrice;
+let lowestPrice = startingPrice;
+
+let updates = 0;
+let priceHistory = [startingPrice];
+
+let virtualBalance = 10000;
+
+let openTrade = null;
+let tradeHistory = [];
+
+
+// ==========================================
+// PRICE SIMULATOR
+// ==========================================
+
+function updatePrice() {
+
+  let movement = (Math.random() - 0.5) * 0.002;
+
+  currentPrice += movement;
+  updates++;
+
+  priceHistory.push(currentPrice);
+
+  if (currentPrice > highestPrice) {
+    highestPrice = currentPrice;
+  }
+
+  if (currentPrice < lowestPrice) {
+    lowestPrice = currentPrice;
+  }
+
+  updateDashboard();
+  analyzeTrend();
+  calculateIndicators();
+  drawChart();
+  updatePosition();
+
+  document.getElementById("log").textContent =
+    "Update #" + updates +
+    " | Simulated price: " +
+    currentPrice.toFixed(5);
+}
+
+
+// ==========================================
+// DASHBOARD
+// ==========================================
+
+function updateDashboard() {
+
+  document.getElementById("price").textContent =
+    currentPrice.toFixed(5);
+
+  document.getElementById("start").textContent =
+    startingPrice.toFixed(5);
+
+  document.getElementById("high").textContent =
+    highestPrice.toFixed(5);
+
+  document.getElementById("low").textContent =
+    lowestPrice.toFixed(5);
+
+  document.getElementById("updates").textContent =
+    updates;
+
+  let difference = currentPrice - startingPrice;
+
+  let changeElement =
+    document.getElementById("change");
+
+  changeElement.textContent =
+    (difference >= 0 ? "+" : "") +
+    difference.toFixed(5);
+
+  changeElement.style.color =
+    difference >= 0 ? "#4ade80" : "#f87171";
+
+  document.getElementById("balance").textContent =
+    "$" + virtualBalance.toFixed(2);
+}
+
+
+// ==========================================
+// TREND OBSERVATION
+// ==========================================
+
+function analyzeTrend() {
+
+  let trendElement =
+    document.getElementById("trend");
+
+  if (priceHistory.length < 5) {
+
+    trendElement.textContent =
+      "Collecting simulated price data...";
+
+    trendElement.style.color =
+      "#60a5fa";
+
+    return;
+  }
+
+  let recent3 = priceHistory.slice(-3);
+  let recent5 = priceHistory.slice(-5);
+
+  let average3 =
+    recent3.reduce((a, b) => a + b, 0) / 3;
+
+  let average5 =
+    recent5.reduce((a, b) => a + b, 0) / 5;
+
+  if (average3 > average5) {
+
+    trendElement.textContent =
+      "Observation: Recent average is higher";
+
+    trendElement.style.color =
+      "#4ade80";
+
+  } else if (average3 < average5) {
+
+    trendElement.textContent =
+      "Observation: Recent average is lower";
+
+    trendElement.style.color =
+      "#f87171";
+
+  } else {
+
+    trendElement.textContent =
+      "Observation: Averages are equal";
+
+    trendElement.style.color =
+      "#60a5fa";
+  }
+}
+
+
+// ==========================================
+// SMA - SIMPLE MOVING AVERAGE
+// ==========================================
+
+function calculateSMA(period) {
+
+  if (priceHistory.length < period) {
+    return null;
+  }
+
+  let recent =
+    priceHistory.slice(-period);
+
+  let total =
+    recent.reduce((sum, price) => sum + price, 0);
+
+  return total / period;
+}
+
+
+// ==========================================
+// RSI - RELATIVE STRENGTH INDEX
+// ==========================================
+
+function calculateRSI(period = 14) {
+
+  if (priceHistory.length <= period) {
+    return null;
+  }
+
+  let gains = 0;
+  let losses = 0;
+
+  let start =
+    priceHistory.length - period;
+
+  for (let i = start; i < priceHistory.length; i++) {
+
+    let change =
+      priceHistory[i] - priceHistory[i - 1];
+
+    if (change > 0) {
+      gains += change;
+    } else {
+      losses += Math.abs(change);
+    }
+  }
+
+  let averageGain = gains / period;
+  let averageLoss = losses / period;
+
+  if (averageLoss === 0) {
+    return 100;
+  }
+
+  let relativeStrength =
+    averageGain / averageLoss;
+
+  return 100 - (100 / (1 + relativeStrength));
+}
+
+
+// ==========================================
+// EMA - EXPONENTIAL MOVING AVERAGE
+// ==========================================
+
+function calculateEMA(values, period) {
+
+  if (values.length < period) {
+    return null;
+  }
+
+  let multiplier = 2 / (period + 1);
+
+  let ema =
+    values.slice(0, period)
+      .reduce((sum, value) => sum + value, 0) / period;
+
+  for (let i = period; i < values.length; i++) {
+
+    ema =
+      (values[i] - ema) * multiplier + ema;
+  }
+
+  return ema;
+}
+
+
+// ==========================================
+// MACD
+// ==========================================
+
+function calculateMACD() {
+
+  if (priceHistory.length < 26) {
+    return null;
+  }
+
+  let ema12 =
+    calculateEMA(priceHistory, 12);
+
+  let ema26 =
+    calculateEMA(priceHistory, 26);
+
+  if (ema12 === null || ema26 === null) {
+    return null;
+  }
+
+  return ema12 - ema26;
+}
+
+
+// ==========================================
+// UPDATE INDICATOR PANEL
+// ==========================================
+
+function calculateIndicators() {
+
+  let sma5 = calculateSMA(5);
+  let sma10 = calculateSMA(10);
+  let rsi14 = calculateRSI(14);
+  let macdValue = calculateMACD();
+
+
+  // SMA 5
+
+  document.getElementById("sma5").textContent =
+    sma5 === null ? "--" : sma5.toFixed(5);
+
+
+  // SMA 10
+
+  document.getElementById("sma10").textContent =
+    sma10 === null ? "--" : sma10.toFixed(5);
+
+
+  // RSI
+
+  let rsiElement =
+    document.getElementById("rsi");
+
+  if (rsi14 === null) {
+
+    rsiElement.textContent = "--";
+
+  } else {
+
+    rsiElement.textContent =
+      rsi14.toFixed(2);
+
+  }
+
+
+  // MACD
+
+  document.getElementById("macd").textContent =
+    macdValue === null
+      ? "--"
+      : macdValue.toFixed(6);
+
+
+  // Indicator observations
+
+  let status =
+    document.getElementById("indicatorStatus");
+
+  if (
+    sma5 === null ||
+    sma10 === null ||
+    rsi14 === null ||
+    macdValue === null
+  ) {
+
+    status.textContent =
+      "Collecting more simulated data. " +
+      "Indicators require more price updates.";
+
+    status.style.color = "#60a5fa";
+
+    return;
+  }
+
+
+  let observations = [];
+
+  if (sma5 > sma10) {
+
+    observations.push(
+      "SMA 5 is above SMA 10"
+    );
+
+  } else {
+
+    observations.push(
+      "SMA 5 is below SMA 10"
+    );
+
+  }
+
+
+  if (rsi14 > 70) {
+
+    observations.push(
+      "RSI is above 70"
+    );
+
+  } else if (rsi14 < 30) {
+
+    observations.push(
+      "RSI is below 30"
+    );
+
+  } else {
+
+    observations.push(
+      "RSI is between 30 and 70"
+    );
+
+  }
+
+
+  observations.push(
+    "MACD value: " +
+    macdValue.toFixed(6)
+  );
+
+
+  status.textContent =
+    "Observations: " +
+    observations.join(" | ");
+
+  status.style.color = "#60a5fa";
+
+}
+
+
+// ==========================================
+// OPEN SIMULATED POSITION
+// ==========================================
+
+function openPosition(direction) {
+
+  if (openTrade !== null) {
+
+    document.getElementById("log").textContent =
+      "Close the existing simulated position first.";
+
+    return;
+  }
+
+  openTrade = {
+    direction: direction,
+    entryPrice: currentPrice,
+    units: 1000
+  };
+
+  document.getElementById("log").textContent =
+    "Simulated " + direction +
+    " opened at " +
+    currentPrice.toFixed(5);
+
+  updatePosition();
+}
+
+
+// ==========================================
+// CALCULATE SIMULATED PROFIT
+// ==========================================
+
+function calculateProfit() {
+
+  if (openTrade === null) {
+    return 0;
+  }
+
+  let difference =
+    currentPrice - openTrade.entryPrice;
+
+  if (openTrade.direction === "SHORT") {
+    difference *= -1;
+  }
+
+  return difference * openTrade.units;
+}
+
+
+// ==========================================
+// POSITION DISPLAY
+// ==========================================
+
+function updatePosition() {
+
+  let profit = calculateProfit();
+
+  let equity = virtualBalance + profit;
+
+  let plElement =
+    document.getElementById("unrealized");
+
+  plElement.textContent =
+    (profit >= 0 ? "$" : "-$") +
+    Math.abs(profit).toFixed(2);
+
+  plElement.style.color =
+    profit >= 0 ? "#4ade80" : "#f87171";
+
+  document.getElementById("equity").textContent =
+    "$" + equity.toFixed(2);
+
+  let positionElement =
+    document.getElementById("position");
+
+  if (openTrade === null) {
+
+    positionElement.textContent =
+      "No open simulated position.";
+
+    return;
+  }
+
+  positionElement.innerHTML =
+    "Type: " + openTrade.direction +
+    "<br>Entry price: " +
+    openTrade.entryPrice.toFixed(5) +
+    "<br>Current price: " +
+    currentPrice.toFixed(5) +
+    "<br>Virtual units: " +
+    openTrade.units +
+    "<br>Simulated P/L: $" +
+    profit.toFixed(2);
+}
+
+
+// ==========================================
+// CLOSE SIMULATED POSITION
+// ==========================================
+
+function closePosition() {
+
+  if (openTrade === null) {
+
+    document.getElementById("log").textContent =
+      "No simulated position to close.";
+
+    return;
+  }
+
+  let profit = calculateProfit();
+
+  virtualBalance += profit;
+
+  tradeHistory.unshift({
+    direction: openTrade.direction,
+    entry: openTrade.entryPrice,
+    exit: currentPrice,
+    profit: profit
+  });
+
+  tradeHistory =
+    tradeHistory.slice(0, 20);
+
+  openTrade = null;
+
+  document.getElementById("log").textContent =
+    "Simulated position closed. P/L: $" +
+    profit.toFixed(2);
+
+  updatePosition();
+  updateHistory();
+}
+
+
+// ==========================================
+// TRADE HISTORY
+// ==========================================
+
+function updateHistory() {
+
+  let historyElement =
+    document.getElementById("history");
+
+  if (tradeHistory.length === 0) {
+
+    historyElement.textContent =
+      "No simulated trades yet.";
+
+    return;
+  }
+
+  historyElement.innerHTML = "";
+
+  tradeHistory.forEach(function(trade) {
+
+    let item = document.createElement("div");
+
+    item.className = "history-item";
+
+    let color =
+      trade.profit >= 0 ? "#4ade80" : "#f87171";
+
+    item.innerHTML =
+      "<strong>" + trade.direction + "</strong>" +
+      "<br>Entry: " + trade.entry.toFixed(5) +
+      "<br>Exit: " + trade.exit.toFixed(5) +
+      "<br>P/L: <span style='color:" + color + "'>" +
+      "$" + trade.profit.toFixed(2) +
+      "</span>";
+
+    historyElement.appendChild(item);
+  });
+}
+
+
+// ==========================================
+// CHART
+// ==========================================
+
+function drawChart() {
+
+  let canvas =
+    document.getElementById("priceChart");
+
+  let ctx = canvas.getContext("2d");
+
+  let width = canvas.width;
+  let height = canvas.height;
+
+  ctx.clearRect(0, 0, width, height);
+
+  if (priceHistory.length < 2) {
+
+    ctx.fillStyle = "#94a3b8";
+    ctx.font = "20px Arial";
+
+    ctx.fillText(
+      "Generate updates to see chart",
+      30,
+      150
+    );
+
+    return;
+  }
+
+  let maxPrice =
+    Math.max(...priceHistory);
+
+  let minPrice =
+    Math.min(...priceHistory);
+
+  let range =
+    maxPrice - minPrice || 0.0001;
+
+  let padding = 35;
+
+
+  // Grid
+
+  ctx.strokeStyle = "#273449";
+  ctx.lineWidth = 1;
+
+  for (let i = 0; i < 4; i++) {
+
+    let y =
+      padding +
+      (i * (height - padding * 2)) / 3;
+
+    ctx.beginPath();
+
+    ctx.moveTo(padding, y);
+
+    ctx.lineTo(width - padding, y);
+
+    ctx.stroke();
+  }
+
+
+  // Price line
+
+  ctx.strokeStyle = "#60a5fa";
+  ctx.lineWidth = 4;
+
+  ctx.beginPath();
+
+  for (let i = 0; i < priceHistory.length; i++) {
+
+    let x =
+      padding +
+      (i * (width - padding * 2)) /
+      (priceHistory.length - 1);
+
+    let y =
+      height - padding -
+      ((priceHistory[i] - minPrice) / range) *
+      (height - padding * 2);
+
+    if (i === 0) {
+
+      ctx.moveTo(x, y);
+
+    } else {
+
+      ctx.lineTo(x, y);
+
+    }
+  }
+
+  ctx.stroke();
+
+
+  // Current price dot
+
+  let lastX =
+    width - padding;
+
+  let lastY =
+    height - padding -
+    ((currentPrice - minPrice) / range) *
+    (height - padding * 2);
+
+  ctx.fillStyle = "#4ade80";
+
+  ctx.beginPath();
+
+  ctx.arc(lastX, lastY, 7, 0, Math.PI * 2);
+
+  ctx.fill();
+}
+
+
+// ==========================================
+// RESET SIMULATOR
+// ==========================================
+
+function resetSimulator() {
+
+  startingPrice = 1.10000;
+  currentPrice = startingPrice;
+
+  highestPrice = startingPrice;
+  lowestPrice = startingPrice;
+
+  updates = 0;
+  priceHistory = [startingPrice];
+
+  openTrade = null;
+
+  updateDashboard();
+  analyzeTrend();
+  calculateIndicators();
+  drawChart();
+  updatePosition();
+
+  document.getElementById("log").textContent =
+    "Simulation reset.";
+}
+
+
+// ==========================================
+// RESET VIRTUAL ACCOUNT
+// ==========================================
+
+function resetAccount() {
+
+  virtualBalance = 10000;
+
+  openTrade = null;
+  tradeHistory = [];
+
+  updateHistory();
+  updatePosition();
+
+  document.getElementById("log").textContent =
+    "Virtual account reset to $10,000.";
+}
+
+
+// ==========================================
+// INITIALIZE
+// ==========================================
+
+updateDashboard();
+analyzeTrend();
+calculateIndicators();
+drawChart();
+updatePosition();
+updateHistory();
+
+  </script></body></html>
